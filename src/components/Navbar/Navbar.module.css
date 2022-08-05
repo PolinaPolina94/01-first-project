@@ -1,0 +1,27 @@
+.item a {
+    color: white;
+    text-decoration: none;
+}
+
+.nav {
+    grid-area: n;
+    background-color: rgb(213, 164, 208);
+    width: 120px;
+    /* height: 900px; */
+    padding: 10px;
+}
+
+
+.friends {
+    margin-top: 50px;
+    color: white;
+    text-decoration: none;
+ 
+}
+
+.friends img {
+    height: 40px;
+    width: 40 px;
+    border-radius: 50px;
+}
+

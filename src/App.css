@@ -1,38 +1,27 @@
-.App {
-  text-align: center;
+.app-wrapper {
+  margin: 0 auto;
+  display: grid;
+  width: 1200px;
+
+  grid-template-areas: 
+"h h"
+"n c";
+
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 1fr 1fr ;
+  grid-gap: 10px;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.app-wrapper-content {
+  grid-area: c;
+  color: brown;
+  margin: 4px;
+  width: 1000px;
+  /* height: 900px; */
+  background-color: rgb(221, 179, 193);
+  /* background-image: url(https://krot.info/uploads/posts/2022-02/1644910286_3-krot-info-p-rozovii-razmitii-fon-3.jpg); */
+  padding: 20px;
+  background-size: cover;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
