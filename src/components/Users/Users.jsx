@@ -2,9 +2,6 @@ import React from "react";
 import classes from './Users.module.css'
 import userPhoto from '../../assets/images/user.png'
 import { NavLink } from "react-router-dom";
-// import * as axios from "axios";
-import {usersAPI} from "../../api/api";
-
 
 const Users = (props) => {
 
@@ -41,36 +38,11 @@ const Users = (props) => {
                         <div>
                             {u.followed
 
-                                ? <button disabled={props.followingInProcess.some(id => id === u.id)} onClick={() => {
+                                ? <button disabled={props.followingInProcess.some(id => id === u.id)} 
+                                onClick={() => { props.unfollowUsers(u.id)}}> UNFOLLOW </button>
 
-                                    props.toggleFollowingProcess(true, u.id)
-                                    usersAPI.unfollowUsers(u.id)
-                                    
-                                        .then(data => {
-
-                                            if (data.resultCode === 0) {
-                                                props.unfollow(u.id)    
-                                            }
-                                            props.toggleFollowingProcess(false, u.id)
-                                        })
-
-                                    }}> UNFOLLOW </button>
-
-                                : <button disabled={props.followingInProcess.some(id => id === u.id)} onClick={() => {
-
-                                    props.toggleFollowingProcess(true, u.id)
-                                    usersAPI.followUsers(u.id)
-                                    
-                                        .then(data => {
-                                         
-                                            if (data.resultCode === 0) {
-                                                props.follow(u.id)    
-                                            }
-                                            props.toggleFollowingProcess(false, u.id)
-                                        })
-
-                                }}> FOLLOW </button>}
-
+                                : <button disabled={props.followingInProcess.some(id => id === u.id)} 
+                                onClick={() => {props.followUsers(u.id)}}> FOLLOW </button>}
 
                         </div>
                     </span>

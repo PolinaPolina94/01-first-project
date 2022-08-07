@@ -1,3 +1,6 @@
+import {usersAPI} from "../api/api";
+
+
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS'; 
@@ -96,5 +99,71 @@ export const toggleIsFetching = (isFetching) => {
 export const toggleFollowingProcess = (isFetching, userId) => {
     return { type: TOGGLE_IS_FOLLOWING_PROCESS, isFetching, userId }
 }
+
+
+export const getUsers = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true))
+
+        usersAPI.getUsers(currentPage, pageSize)
+            .then(data => {
+
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items));
+                dispatch(setTotalUsersCount(data.totalCount))
+            })
+    }
+} 
+
+
+export const markCurrentUserPage = (pageNumber, pageSize) => {
+    return (dispatch) => {
+        dispatch(setCurrentPage(pageNumber));
+        dispatch(toggleIsFetching(true))
+
+        usersAPI.getUsers (pageNumber,pageSize)
+            .then(data => {
+                dispatch(toggleIsFetching(false))
+                dispatch(setUsers(data.items))
+            })
+
+
+    }
+}
+
+export const followUsers = (userId) => {
+    return (dispatch) => {
+
+        dispatch(toggleFollowingProcess(true, userId))
+        usersAPI.followUsers(userId)
+
+            .then(data => {
+
+                if (data.resultCode === 0) {
+                    dispatch(follow(userId))
+                }
+                dispatch(toggleFollowingProcess(false, userId))
+            })
+
+    }
+}
+
+export const unfollowUsers = (userId) => {
+    return (dispatch) => {
+
+        dispatch(toggleFollowingProcess(true, userId))
+        usersAPI.unfollowUsers(userId)
+        
+            .then(data => {
+
+                if (data.resultCode === 0) {
+                    dispatch(unfollow(userId))   
+                }
+                dispatch(toggleFollowingProcess(false, userId))
+            })
+
+    }
+}
+
 
 export default usersReducer;

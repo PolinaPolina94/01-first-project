@@ -9,7 +9,9 @@ const Header = (props) => {
             <img src="https://klike.net/uploads/posts/2021-11/1636537507_5.jpg" />
 
             <div className={classes.loginBlock}>
+
                 { props.isAuth ? props.login : <NavLink to="/login">LOGIN</NavLink> }
+                
             </div>
 
         </header>

@@ -3,11 +3,6 @@ import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import MessageItem from "./MessageItem/MessageItem";
 
-
-/* формируем новый массив отрисовывающий компоненту на основе массива базы данных users */
-
-/* Отрисовываем компоненту с помощью метода массива map  на основе массива с данными о сообщениях  */
-
 const Dialogs = (props) => {
     const dialogElements = props.dialogsData.map(d => {
         return <DialogItem name={d.name} id={d.id}/>
@@ -17,14 +12,12 @@ const Dialogs = (props) => {
         return <MessageItem message={m.message} />
     })
 
-    // const newMessage = React.createRef();        // смотри ниже 
-
     const addNewMessage = () => {
         props.sendNewMessage ()
     }
 
     let onMessageChange = (e) => {
-        let message = e.target.value;    // вместо ref  можно использовать event.target.value 
+        let message = e.target.value;   
         props.updateNewMessage (message);
     }
 
