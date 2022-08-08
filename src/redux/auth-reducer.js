@@ -31,7 +31,7 @@ export const setAuthUserData = (id, email, login) => {
     return { type: SET_USER_DATA, data:{id, email, login} }
 }
 
-export const getUsersAuth = () => {
+export const getAuthUserData = () => {
     return (dispatch) => {
 
         usersAPI.getAuthUsers()

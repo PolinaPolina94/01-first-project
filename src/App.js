@@ -9,6 +9,7 @@ import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import ProfileContainer from './components/Profail/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
+import Login from './components/Login/Login';
 
   
 const App = (props) => {
@@ -28,6 +29,7 @@ const App = (props) => {
             <Route path="/settings" exact element={<Settings />} />
             <Route path="/users" exact element={<UsersContainer/>} />
             <Route path="/friends" exact element={<Friends />} />
+            <Route path="/login" exact element={<Login/>} />
           </Routes>
         </div>
       </div>

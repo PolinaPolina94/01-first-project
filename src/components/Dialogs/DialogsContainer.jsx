@@ -1,6 +1,8 @@
 import { sendNewMessageActionCreator, updateNewMessageActionCreator } from "../../redux/dialogs-reduser";
 import Dialogs from "./Dialogs";
 import { connect } from "react-redux";
+// import { Navigate } from "react-router-dom";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 
 const mapStateToProps = (state) => {
@@ -23,6 +25,10 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+// HOC-компонента, возвращающая контейнерную компоненту и выполняющая логику по перенаправлению на страницу логинизации незарегестрированного пользователя
+let AuthRedirectComponent = withAuthRedirect(Dialogs)
+
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent);
 
 export default DialogsContainer;  
