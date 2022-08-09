@@ -4,7 +4,8 @@ import { follow, unfollow, toggleFollowingProcess, getUsers, markCurrentUserPage
 import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+// import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 
 class UsersContainer extends React.Component {
@@ -42,12 +43,6 @@ class UsersContainer extends React.Component {
     }
 }
 
-// вызвали hoc-компоненту, решающую вопрос по закрытию страницы от незарегестрированного пользователя (см.папку hoc/ файл withAuthRedirect)
-// и передали эту компоненту connectу (снизу)
-
-let withRedirect = withAuthRedirect(UsersContainer)
-
-
 let mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
@@ -59,9 +54,19 @@ let mapStateToProps = (state) => {
     }
 }
 
+// // вызвали hoc-компоненту, решающую вопрос по закрытию страницы от незарегестрированного пользователя (см.папку hoc/ файл withAuthRedirect)
+// // и передали эту компоненту connectу (снизу)
 
-export default connect(mapStateToProps, {follow, unfollow, 
-        toggleFollowingProcess, getUsers, markCurrentUserPage, 
-        followUsers, unfollowUsers })(withRedirect);
+// let withRedirect = withAuthRedirect(UsersContainer)
 
+// export default connect(mapStateToProps, {follow, unfollow, 
+//         toggleFollowingProcess, getUsers, markCurrentUserPage, 
+//         followUsers, unfollowUsers })(withRedirect);
+
+
+export default
+    compose(
+        connect(mapStateToProps, { follow, unfollow, toggleFollowingProcess, getUsers, markCurrentUserPage, followUsers, unfollowUsers })
+    )
+        (UsersContainer);         
 
