@@ -20,18 +20,36 @@ export const usersAPI = {
     unfollowUsers (userId) {
         return instance.delete(`follow/${userId}`)
         .then(response => response.data)
+    }    
+
+}
+
+
+export const profileAPI = {
+    getUserProfile (userId) {
+        return  instance.get(`profile/${userId}`) 
+        .then(response => response)
     },
+    getStatus (userId) {
+        return instance.get(`/profile/status/${userId}`)
+        // .then (response => response)
+    },
+    updateStatus (status) {
+        return instance.put(`/profile/status`, {
+            status: status
+        })
+        // .then (response => response)
+
+    }
+
+}
+
+
+export const authAPI = {
     getAuthUsers () {
         return instance.get(`auth/me`) 
         .then(response => response.data)  
     },
-    getUserProfile (userId) {
-        return  instance.get(`profile/${userId}`) 
-        .then(response => response)
-    }
-
-    
-
 }
 
 // export const getUsers = (currentPage =1 ,pageSize = 4) => {

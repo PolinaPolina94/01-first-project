@@ -1,6 +1,7 @@
 import React from "react"
 import Preloader from "../../common/Preloader/Preloader"
 import classes from "./ProfileInfo.module.css"
+import ProfileStatus from "./ProfileStatus"
 
 const ProfileInfo = (props) => {
 
@@ -16,7 +17,7 @@ const ProfileInfo = (props) => {
       <div className={classes.avatar}>
         <img src={props.profile.photos.large}/>
         
-      <div>Avatar + description</div>
+      <div> <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/> </div>
 
       <div className={classes.links}> 
       <a href="https://twitter.com">{props.profile.contacts.twitter}</a> 
