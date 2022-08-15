@@ -1,7 +1,6 @@
 import { profileAPI } from "../api/api"
 
 const ADD_POST = 'ADD-POST';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
 
@@ -12,7 +11,6 @@ let inicialState = {
         { id: 2, message: "Hi, dear", likesCount: 15 },
         { id: 2, message: "Hi, dear", likesCount: 15 },
     ],
-    newPostText: " ",
     profile: null,
     status: ''
 }
@@ -21,21 +19,11 @@ const profailReducer = (state = inicialState, action) => {
 
     switch (action.type) {
         case ADD_POST:
-            let newPost = {
-                id: 5,
-                message: state.newPostText,
-                likesCount: 0
-            };
+            let newPost = action.newPostText 
             return {
                 ...state,
-                postsData: [...state.postsData, newPost],
+                postsData: [...state.postsData, {message: newPost}],
                 newPostText: ''
-            };
-
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...state,
-                newPostText: action.newText
             };
 
         case SET_USER_PROFILE:
@@ -54,12 +42,8 @@ const profailReducer = (state = inicialState, action) => {
     }
 }
 
-export const addPostActionCreator = () => {
-    return { type: ADD_POST }
-}
-
-export const updateNewPostTextActionCreator = (text) => {
-    return { type: UPDATE_NEW_POST_TEXT, newText: text }
+export const addPostActionCreator = (newPostText) => {
+    return { type: ADD_POST, newPostText }
 }
 
 export const setUserProfile = (profile) => {
@@ -67,7 +51,7 @@ export const setUserProfile = (profile) => {
 }
 
 export const setUserStatus = (status) => {
-    return {type: "SET_USER_STATUS", status}
+    return {type: SET_USER_STATUS, status}
 }
 
 export const getUserProfile = (userId) => {
@@ -79,7 +63,7 @@ export const getUserProfile = (userId) => {
             })
     }
 }
-
+                         //Thunk
 export const getUserStatus = (userId) => {
     return (dispatch) => {
         profileAPI.getStatus(userId)
@@ -89,7 +73,7 @@ export const getUserStatus = (userId) => {
         })
     }
 }
-
+                     // Thunk 
 export const updateUserStatus = (status) => {
     return (dispatch) => {
         profileAPI.updateStatus(status)

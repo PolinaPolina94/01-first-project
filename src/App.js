@@ -11,34 +11,32 @@ import ProfileContainer from './components/Profail/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 
-  
-const App = (props) => {
 
-    return (
+const App = () => {
+
+  return (
     <BrowserRouter>
       <div className="app-wrapper">
         <HeaderContainer />
         <Navbar />
         <div className="app-wrapper-content">
           <Routes>
-            <Route path="/profile/:userId" exact element={<ProfileContainer/>} />
-            <Route path="/profile/*" exact element={<ProfileContainer/>} />
-            <Route path="/dialogs/*" exact element={<DialogsContainer/>} />
+            <Route path="/profile/*" element={<ProfileContainer />} />
+            <Route path="/profile/:userId" element={<ProfileContainer />} />
+            <Route path="/dialogs/*" exact element={<DialogsContainer />} />
             <Route path="/news" exact element={<News />} />
             <Route path="/music" exact element={<Music />} />
             <Route path="/settings" exact element={<Settings />} />
-            <Route path="/users" exact element={<UsersContainer/>} />
+            <Route path="/users" exact element={<UsersContainer />} />
             <Route path="/friends" exact element={<Friends />} />
-            <Route path="/login" exact element={<Login/>} />
+            <Route path="/login" exact element={<Login />} />
           </Routes>
         </div>
       </div>
-
-   </BrowserRouter>
+    </BrowserRouter>
 
   );
 }
-
 
 export default App;
 
