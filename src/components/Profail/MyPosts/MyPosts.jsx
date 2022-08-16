@@ -2,6 +2,11 @@ import React from "react";
 import classes from './MyPosts.module.css'
 import Post from "./Post/Post";
 import { Field, reduxForm } from "redux-form";
+import { required, maxLengthCreator } from "../../../utils/validators/validators";
+import { Textarea } from "../../common/FormsControls/FormsControls";
+
+
+const maxLength10 = maxLengthCreator(10)
 
 /* создаем, какбэ функцию, возвращающую компоненту на основе базы данных с постами. Компонента принимает в качестве пропсов параметры сообщений и количество лайков. */
 
@@ -12,6 +17,7 @@ const MyPosts = (props) => {
     } )
 
     const addPosts = (values) => {
+      
         props.addPost(values.newPostText);
     }
     
@@ -27,11 +33,13 @@ const MyPosts = (props) => {
         </div>
     );
 }
-
+ // в компоненте-форме AddPostForm в поле Field при отрисовке компоненты (отдельно созданной "Textarea"), передаем ее как ссылку в {} у component
 let AddPostForm = (props) => {
     return (
         <form onSubmit = {props.handleSubmit}>
-            <Field component={"textarea"} name={"newPostText"} placeholder="Your post" value={props.newPostText} />
+            <Field component={Textarea} name={"newPostText"} 
+                    placeholder="Your post" value={props.newPostText} 
+                    validate={[required, maxLength10]} />
             <div> <button> New post</button></div>
         </form>
     )
