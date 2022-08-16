@@ -3,3 +3,9 @@
 .h {
     text-align: center;
 }
+
+.formEror {
+    border: solid red 2px;
+    padding: 2px;
+    color: red;
+}

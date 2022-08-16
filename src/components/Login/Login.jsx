@@ -4,8 +4,8 @@ import { Field, reduxForm } from 'redux-form'
 import { Input } from "../common/FormsControls/FormsControls";
 import {required } from "../../utils/validators/validators";
 import { connect } from "react-redux";
-import {login} from "../../redux/auth-reducer"
-import { Navigate } from "react-router-dom"
+import {login} from "../../redux/auth-reducer";
+import { Navigate } from "react-router-dom";
 
 let LoginForm = (props) => {
     
@@ -22,6 +22,9 @@ let LoginForm = (props) => {
         <div>
         <Field type={"checkbox"} name={"rememberMe"} component={Input}/> remember me
            </div>
+           { props.error && <div className={classes.formEror}>
+            {props.error} 
+           </div>}
         <div>
             <button> login </button>
         </div>
