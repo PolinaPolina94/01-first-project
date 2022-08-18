@@ -34,7 +34,7 @@ export const setAuthUserData = (id, email, login, isAuth) => {
 export const getAuthUserData = () => {
     return (dispatch) => {
 
-        authAPI.getAuthUsers()
+       return authAPI.getAuthUsers()
         .then(data => { 
          if (data.resultCode === 0) {
          let {id, email, login} = data.data
@@ -43,6 +43,7 @@ export const getAuthUserData = () => {
                     })
 
     }
+
 }
 
                                     // Thunk по отправке данных логинизации на сервер 

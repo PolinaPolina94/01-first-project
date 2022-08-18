@@ -2,9 +2,9 @@ import React from "react"
 import Profile from "./Profile";
 import { connect } from "react-redux";
 import { getUserProfile, getUserStatus, updateUserStatus } from "../../redux/profile-reducer";
-import { useLocation, useNavigate, useParams} from "react-router-dom"; 
-// import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { useLocation, useNavigate, useParams, Navigate} from "react-router-dom"; 
 import { compose } from "redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 function withRouter(Component) {
     function ComponentWithRouterProp(props) {
@@ -25,10 +25,14 @@ class ProfileContainer extends React.Component {
         
     componentDidMount () {
         
-        let userId = this.props.router.params.userId; 
+        let userId = this.props.router.params.userId;
         if (!userId) {
-         userId = this.props.autorizedUserId ;
-        }
+            //  debugger;
+            userId = this.props.autorizedUserId;
+            }
+        //  if (!userId) {
+        //     this.props.history.push("/login");
+        // this.props.router.location.pathname("/login")
 
         this.props.getUserProfile(userId);
         this.props.getUserStatus(userId)
@@ -55,7 +59,6 @@ let mapStateToProps = (state) => {
         isAuth: state.auth.isAuth       
     }
 }
-
 // // HOC-компонента, возвращающая контейнерную компоненту и выполняющая логику по перенаправлению на страницу логинизации незарегестрированного пользователя (см.папку hoc/ файл withAuthRedirect)
 // let AuthRedirectComponent = withAuthRedirect(ProfileContainer)
 
@@ -67,6 +70,6 @@ let mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),
     withRouter,
-    // withAuthRedirect
+    withAuthRedirect
 )
     (ProfileContainer); 
