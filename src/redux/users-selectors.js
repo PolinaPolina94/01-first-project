@@ -1,8 +1,11 @@
+// import { createSelector } from "reselect"
 
 
 export const getPageUsers = (state) => {
     return state.usersPage.users
 }
+
+// export getPageUsersSelector = createSelector(); 
 
 export const getPageSize = (state) => {
     return state.usersPage.pageSize
