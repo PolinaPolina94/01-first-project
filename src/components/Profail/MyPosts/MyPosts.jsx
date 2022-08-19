@@ -10,18 +10,25 @@ const maxLength10 = maxLengthCreator(10)
 
 /* создаем, какбэ функцию, возвращающую компоненту на основе базы данных с постами. Компонента принимает в качестве пропсов параметры сообщений и количество лайков. */
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {     //Если мы работаем с классовой компонентой, то мы пишем так: class MyPost extends React.PureComponent { render () {...} ... } - PureComponent берет на себя логику метода жизненного цикла shouldComponentUpdate()
 
-        const postElements = props.postsData.map ( p=> {
-        return <Post message={p.message} likesCount={p.likesCount}/>
-    } )
+       
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return nextProps !== this.props || nextState !== this.state 
+    // }
+
+        console.log("render")
+
+    const postElements = props.postsData.map(p => {
+            return <Post message={p.message} likesCount={p.likesCount} />
+        })
 
     const addPosts = (values) => {
-      
+
         props.addPost(values.newPostText);
-    }
+            }
     
-    return (
+    return(
         <div>
             <h2> My posts</h2>
             
@@ -32,7 +39,12 @@ const MyPosts = (props) => {
             </div>
         </div>
     );
-}
+        }); 
+
+
+
+ 
+
  // в компоненте-форме AddPostForm в поле Field при отрисовке компоненты (отдельно созданной "Textarea"), передаем ее как ссылку в {} у component
 let AddPostForm = (props) => {
     return (
