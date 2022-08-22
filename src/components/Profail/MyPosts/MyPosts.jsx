@@ -19,9 +19,12 @@ const MyPosts = React.memo((props) => {     //Если мы работаем с 
 
         console.log("render")
 
-    const postElements = props.postsData.map(p => {
-            return <Post message={p.message} likesCount={p.likesCount} />
-        })
+    const postElements = 
+        [...props.postsData]
+        .reverse()
+            .map(p => {
+                return <Post message={p.message} likesCount={p.likesCount} />
+            })
 
     const addPosts = (values) => {
 
