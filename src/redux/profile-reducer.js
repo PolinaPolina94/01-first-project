@@ -65,35 +65,40 @@ export const deletePost = (id) => {
     return {type: DELETE_POST, id}
 }
 
-export const getUserProfile = (userId) => {
-    return (dispatch) => {
+// (рефакторинг с помощью использования async/await. См.оригинал ниже - // )
+export const getUserProfile = (userId) => 
+    async (dispatch) => {
+        let response = await profileAPI.getUserProfile(userId);
+                dispatch(setUserProfile(response.data));    
+    }
 
-        profileAPI.getUserProfile(userId)
-            .then(response => {
-                dispatch(setUserProfile(response.data));
-            })
-    }
-}
-                         //Thunk
-export const getUserStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getStatus(userId)
-        .then(response=> {
-            
+// export const getUserProfile = (userId) => {
+//     return (dispatch) => {
+
+//         profileAPI.getUserProfile(userId)
+//             .then(response => {
+//                 dispatch(setUserProfile(response.data));
+//             })
+//     }
+// }
+
+
+                         //Thunk     
+export const getUserStatus = (userId) => 
+    async (dispatch) => {
+        let response = await profileAPI.getStatus(userId);
             dispatch(setUserStatus(response.data))
-        })
     }
-}
+
+
                      // Thunk 
-export const updateUserStatus = (status) => {
-    return (dispatch) => {
-        profileAPI.updateStatus(status)
-        .then(response=> {
-            if (response.data.resultCode === 0) {
+export const updateUserStatus = (status) => 
+    async (dispatch) => {
+        let response = await profileAPI.updateStatus(status);
+          if (response.data.resultCode === 0) {
             dispatch(setUserStatus(status))
             }
-        })
-    }
+       
 }
 
 export default profailReducer;

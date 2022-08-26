@@ -1,69 +1,70 @@
-import {usersAPI} from "../api/api";
+import { usersAPI } from "../api/api";
 
 
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
-const SET_USERS = 'SET_USERS'; 
+const SET_USERS = 'SET_USERS';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROCESS = 'TOGGLE_IS_FOLLOWING_PROCESS'
 
 let inicialState = {
-    users: [ ],
+    users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProcess: []  
+    followingInProcess: []
 
 }
 
 const usersReducer = (state = inicialState, action) => {
 
     switch (action.type) {
-        case FOLLOW: 
-             return {
+        case FOLLOW:
+            return {
                 ...state,
-                users: state.users.map ( u => {
+                users: state.users.map(u => {
                     if (u.id === action.userId) {
-                        return {...u, followed: true}
+                        return { ...u, followed: true }
                     }
-                    return u; 
-                                } ) 
-             }
+                    return u;
+                })
+            }
 
         case UNFOLLOW:
             return {
                 ...state,
-                users: state.users.map ( u => {
+                users: state.users.map(u => {
                     if (u.id === action.userId) {
-                        return {...u, followed: false}
+                        return { ...u, followed: false }
                     }
-                    return u; 
-                                } ) 
-             }
+                    return u;
+                })
+            }
 
         case SET_USERS: {
-            return {...state, users: [...action.users ] }
+            return { ...state, users: [...action.users] }
         }
 
         case SET_CURRENT_PAGE: {
-            return {...state, currentPage: action.currentPage }
+            return { ...state, currentPage: action.currentPage }
         }
 
         case SET_TOTAL_USERS_COUNT: {
-            return {...state, totalUsersCount: action.totalUsersCount }
+            return { ...state, totalUsersCount: action.totalUsersCount }
         }
 
         case TOGGLE_IS_FETCHING: {
-            return {...state, isFetching: action.isFetching }
+            return { ...state, isFetching: action.isFetching }
         }
         case TOGGLE_IS_FOLLOWING_PROCESS: {
-            return {...state, 
-                followingInProcess: action.isFetching 
-                ? [...state.followingInProcess, action.userId] 
-                : state.followingInProcess.filter(id => id !== action.userId)
+            return {
+                ...state,
+                followingInProcess: action.isFetching
+                    ? [...state.followingInProcess, action.userId]
+                    : state.followingInProcess.filter(id => id !== action.userId)
             }
         }
 
@@ -102,68 +103,57 @@ export const toggleFollowingProcess = (isFetching, userId) => {
 
 
 export const getUsers = (currentPage, pageSize) => {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true))
-
-        usersAPI.getUsers(currentPage, pageSize)
-            .then(data => {
-
-                dispatch(toggleIsFetching(false))
-                dispatch(setUsers(data.items));
-                dispatch(setTotalUsersCount(data.totalCount))
-            })
-    }
-} 
-
-
-export const markCurrentUserPage = (pageNumber, pageSize) => {
-    return (dispatch) => {
-        dispatch(setCurrentPage(pageNumber));
-        dispatch(toggleIsFetching(true))
-
-        usersAPI.getUsers (pageNumber,pageSize)
-            .then(data => {
-                dispatch(toggleIsFetching(false))
-                dispatch(setUsers(data.items))
-            })
-
-
+        let data = await usersAPI.getUsers(currentPage, pageSize)
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount))
     }
 }
 
-export const followUsers = (userId) => {
-    return (dispatch) => {
+
+export const markCurrentUserPage = (pageNumber, pageSize) => {
+    return async (dispatch) => {
+        dispatch(setCurrentPage(pageNumber));
+        dispatch(toggleIsFetching(true))
+
+        let data = await usersAPI.getUsers(pageNumber, pageSize)
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(data.items))
+    }
+}
+
+
+
+// Рефакторинг: создаем функцию, которая заменяет нижние две Thunk-функции по подписке/отписке users).
+// Всю логику берет на себя начиная с dispatch. В функциях ниже вызываем эту функцию и передаем свои параметры (в которые поместили другие функции)
+
+export const followUnfollowUsers = async (dispatch, userId, apiMethod, actionCreator) => {
 
         dispatch(toggleFollowingProcess(true, userId))
-        usersAPI.followUsers(userId)
+        let data = await apiMethod(userId)
+        if (data.resultCode === 0) {
+            dispatch(actionCreator(userId))
+        }
+        dispatch(toggleFollowingProcess(false, userId))
+    }
 
-            .then(data => {
 
-                if (data.resultCode === 0) {
-                    dispatch(follow(userId))
-                }
-                dispatch(toggleFollowingProcess(false, userId))
-            })
-
+export const followUsers = (userId) => {
+    return async (dispatch) => {
+        let apiMethod = usersAPI.followUsers.bind(usersAPI);
+        let actionCreator = follow;
+        followUnfollowUsers (dispatch, userId, apiMethod, actionCreator)
     }
 }
 
 export const unfollowUsers = (userId) => {
-    return (dispatch) => {
-
-        dispatch(toggleFollowingProcess(true, userId))
-        usersAPI.unfollowUsers(userId)
-        
-            .then(data => {
-
-                if (data.resultCode === 0) {
-                    dispatch(unfollow(userId))   
-                }
-                dispatch(toggleFollowingProcess(false, userId))
-            })
-
+    return async (dispatch) => {
+        let apiMethod = usersAPI.unfollowUsers.bind(usersAPI);
+        let actionCreator = unfollow;
+        followUnfollowUsers (dispatch, userId, apiMethod, actionCreator)
     }
 }
-
 
 export default usersReducer;

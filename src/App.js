@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import News from './components/News/News';
@@ -30,7 +30,7 @@ if (!this.props.initialized) {
 }
 
   return (
-    <BrowserRouter>
+  
       <div className="app-wrapper">
         <HeaderContainer />
         <Navbar />
@@ -48,7 +48,7 @@ if (!this.props.initialized) {
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
+
   )
   }
 }

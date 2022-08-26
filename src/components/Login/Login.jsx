@@ -7,10 +7,16 @@ import { connect } from "react-redux";
 import {login} from "../../redux/auth-reducer";
 import { Navigate } from "react-router-dom";
 
-let LoginForm = (props) => {
+                                // Вместо предыдущих props параметров (let LoginForm = (props) => ... 
+                                //   а потом в дальнейшем использование: form onSubmit={props.handleSubmit}) , ...   {props.error}
+                                //   используем деструктуаризацию  let LoginForm = ({handleSubmit, error}) => { .... (тут уже в просы вписаны 
+                                // непосредственно используемые иточники)
+                                //   ... {error} 
+
+let LoginForm = ({handleSubmit, error}) => {
     
     return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>            
         <div>
             <Field placeholder={"email"} name={"email"} component={Input} 
             validate={[required]}/>
@@ -22,8 +28,8 @@ let LoginForm = (props) => {
         <div>
         <Field type={"checkbox"} name={"rememberMe"} component={Input}/> remember me
            </div>
-           { props.error && <div className={classes.formEror}>
-            {props.error} 
+           { error && <div className={classes.formEror}>
+            {error} 
            </div>}
         <div>
             <button> login </button>

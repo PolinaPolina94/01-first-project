@@ -32,7 +32,6 @@ export const initializeApp = () => {
 
     return (dispatch) => {
         let promise = dispatch(getAuthUserData());
-// debugger;
         promise.then(() => {
             dispatch(setInitialized())
         })
