@@ -21,14 +21,11 @@ import Preloader from './components/common/Preloader/Preloader';
 import { Provider } from 'react-redux';
 import store from './redux/redux-store';
 
+// const OtherComponent = React.lazy(() => import('./OtherComponent')); 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profail/ProfileContainer'));
-// const HeaderContainer = React.lazy(() => import('./components/Header/HeaderContainer'));
-// const Login = React.lazy(() => import('./components/Login/Login'));
 
-
-// const OtherComponent = React.lazy(() => import('./OtherComponent'));
 
 
 
@@ -92,7 +89,7 @@ const mapStateToprops = (state) => {
 const AppContainer = compose( connect(mapStateToprops, {initializeApp}) ) (App);
 
 const MainApp = (props) => {
-  return  <BrowserRouter>
+  return  <BrowserRouter basename={process.env.PUBLIC_URL}>
   <Provider store={store}>
   <AppContainer />
   </Provider>
