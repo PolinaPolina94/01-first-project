@@ -4,6 +4,7 @@ const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
 const DELETE_POST = 'DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
 
 let inicialState = {
     postsData: [
@@ -44,6 +45,13 @@ const profailReducer = (state = inicialState, action) => {
             postsData: state.postsData.filter(p => p.id !== action.id)
         }    
 
+        case SAVE_PHOTO_SUCCESS: 
+        // debugger;
+        return {
+            ...state,
+            profile: {...state.profile, photos: action.photos}
+        } 
+
         default:
             return state;
     }
@@ -65,13 +73,16 @@ export const deletePost = (id) => {
     return {type: DELETE_POST, id}
 }
 
+export const savePhotoSuccess = (photos) => {
+    return {type: SAVE_PHOTO_SUCCESS, photos}
+}
+
 // (рефакторинг с помощью использования async/await. См.оригинал ниже - // )
 export const getUserProfile = (userId) => 
     async (dispatch) => {
         let response = await profileAPI.getUserProfile(userId);
                 dispatch(setUserProfile(response.data));    
     }
-
 // export const getUserProfile = (userId) => {
 //     return (dispatch) => {
 
@@ -81,8 +92,6 @@ export const getUserProfile = (userId) =>
 //             })
 //     }
 // }
-
-
                          //Thunk     
 export const getUserStatus = (userId) => 
     async (dispatch) => {
@@ -97,7 +106,15 @@ export const updateUserStatus = (status) =>
         let response = await profileAPI.updateStatus(status);
           if (response.data.resultCode === 0) {
             dispatch(setUserStatus(status))
-            }
+            }              
+}
+
+export const savePhoto = (file) => 
+    async (dispatch) => {
+        let response = await profileAPI.savePhoto(file);
+          if (response.data.resultCode === 0) {
+            dispatch(savePhotoSuccess(response.data.data.photos))
+            }            
        
 }
 
