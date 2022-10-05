@@ -2,7 +2,11 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-}    
+}
+
+.user {
+    color: rgb(130, 24, 100);
+}
 
 /* .avatar {
     color: rgb(133, 102, 186);
@@ -12,6 +16,23 @@
 } */
 
 .links a {
-    display:inline-block;
-    padding:10px;
-} 
+    display: inline-block;
+    padding: 10px;
+}
+
+.contacts {
+    padding-left: 30px;
+}
+
+.form {
+    border-width: 5px;
+    border-color: rgb(231, 109, 109);
+    border-style: solid;
+    /* border-right: -5000px; */
+}
+
+.formEror {
+    border: solid red 2px;
+    padding: 2px;
+    color: red;
+}

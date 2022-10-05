@@ -23,7 +23,7 @@ const MyPosts = React.memo((props) => {     //Если мы работаем с 
         [...props.postsData]
         .reverse()
             .map(p => {
-                return <Post message={p.message} likesCount={p.likesCount} />
+                return <Post key={p.id} message={p.message} likesCount={p.likesCount} />
             })
 
     const addPosts = (values) => {

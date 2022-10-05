@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { profileAPI } from "../api/api"
 
 const ADD_POST = 'ADD-POST';
@@ -5,6 +6,7 @@ const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_USER_STATUS = 'SET_USER_STATUS';
 const DELETE_POST = 'DELETE_POST';
 const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS';
+// const SAVE_PROFILE_SUCCESS ='SAVE_PROFILE_SUCCESS';
 
 let inicialState = {
     postsData: [
@@ -43,14 +45,17 @@ const profailReducer = (state = inicialState, action) => {
         return {
             ...state,
             postsData: state.postsData.filter(p => p.id !== action.id)
-        }    
-
+        };   
         case SAVE_PHOTO_SUCCESS: 
-        // debugger;
         return {
             ...state,
             profile: {...state.profile, photos: action.photos}
-        } 
+        };
+        // case SAVE_PROFILE_SUCCESS: 
+        // return {
+        //     ...state,
+        //     profile: {...state.profile, profile: action.profile}
+        // } 
 
         default:
             return state;
@@ -76,6 +81,11 @@ export const deletePost = (id) => {
 export const savePhotoSuccess = (photos) => {
     return {type: SAVE_PHOTO_SUCCESS, photos}
 }
+// export const saveProfileSuccess = (profile) => {
+//     return {type: SAVE_PROFILE_SUCCESS, profile}
+// }
+
+
 
 // (рефакторинг с помощью использования async/await. См.оригинал ниже - // )
 export const getUserProfile = (userId) => 
@@ -115,6 +125,20 @@ export const savePhoto = (file) =>
           if (response.data.resultCode === 0) {
             dispatch(savePhotoSuccess(response.data.data.photos))
             }            
+       
+}
+
+export const saveProfile = (profile) => 
+    async (dispatch, getState) => {
+        const userId = getState().auth.id;
+        let response = await profileAPI.saveProfile(profile);
+          if (response.data.resultCode === 0) {
+            dispatch(getUserProfile(userId))
+            }     
+            else {
+                dispatch(stopSubmit("edit-profile", {_error: response.data.messages[0]}));
+                return Promise.reject(response.data.messages[0])
+            }       
        
 }
 
