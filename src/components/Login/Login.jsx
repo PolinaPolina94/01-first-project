@@ -13,7 +13,7 @@ import { Navigate } from "react-router-dom";
                                 // непосредственно используемые иточники)
                                 //   ... {error} 
 
-let LoginForm = ({handleSubmit, error}) => {
+let LoginForm = ({handleSubmit, error, captchaURL}) => {
     
     return (
     <form onSubmit={handleSubmit}>            
@@ -28,6 +28,11 @@ let LoginForm = ({handleSubmit, error}) => {
         <div>
         <Field type={"checkbox"} name={"rememberMe"} component={Input}/> remember me
            </div>
+
+        { captchaURL && <img src={captchaURL}/> }
+        { captchaURL && <Field placeholder={"numbers"} name={"captcha"} component={Input} validate={[required]}/> }
+
+
            { error && <div className={classes.formEror}>
             {error} 
            </div>}
@@ -46,7 +51,7 @@ LoginForm = reduxForm ({
 const Login = (props) => {
 
 const onSubmit = (formData) => {
-props.login(formData.email, formData.password, formData.rememberMe)
+props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
 }
 
     if (props.isAuth) {
@@ -55,14 +60,15 @@ props.login(formData.email, formData.password, formData.rememberMe)
 
     return <div>
     <h1 className={classes.h}>LOGIN HERE!</h1>
-    <LoginForm onSubmit={onSubmit}/>
+    <LoginForm onSubmit={onSubmit} captchaURL={props.captchaURL}/>
     </div>
 
 }
 
 const mapStateToProps = (state) => {
 return {
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    captchaURL: state.auth.captchaURL
 }
 }
 
