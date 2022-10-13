@@ -1,13 +1,10 @@
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { Routes, Route, HashRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 import News from './components/News/News';
 import Friends from './components/Friends/Friends';
-// import DialogsContainer from './components/Dialogs/DialogsContainer';
-// import UsersContainer from './components/Users/UsersContainer';
-// import ProfileContainer from './components/Profail/ProfileContainer';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Login from './components/Login/Login';
 
@@ -30,6 +27,7 @@ const ProfileContainer = React.lazy(() => import('./components/Profail/ProfileCo
 
 
 class App extends React.Component  {
+
   componentDidMount() {
 
     this.props.initializeApp()
@@ -51,28 +49,22 @@ if (!this.props.initialized) {
           
         <Suspense fallback={<div>LOADING...</div>}>
           <Routes>
-          
-            <Route path="/profile/*" exact element={<ProfileContainer />} />
-           
-            <Route path="/profile/:userId" exact element={ <ProfileContainer />} />
-            
-            
-            <Route path="/dialogs/*" exact element={ <DialogsContainer />} />
-           
+            <Route path="/" exact element={<div> Hello, this is my little project. Welcome! </div>} />
+            {/* <Route path="/" element={<Navigate to="/profile"/>}/>       Делает переход на страницу пользователя сразу же при запуске приложения */}
+            <Route path="/profile/*" exact element={<ProfileContainer />} />           
+            <Route path="/profile/:userId" exact element={ <ProfileContainer />} />            
+            <Route path="/dialogs/*" exact element={ <DialogsContainer />} />           
             <Route path="/news" exact element={ <News />} />
             <Route path="/music" exact element={<Music />} />
             <Route path="/settings" exact element={<Settings />} />
             <Route path="/users" exact element={<UsersContainer />} />
             <Route path="/friends" exact element={ <Friends />} />
             <Route path="/login" exact element={ <Login />} />
-           
+            <Route path="*" element={<div> Error 404  O-O-O-PS, something wrong. Don't know about this page :( </div>}/>           
           </Routes>
           </Suspense>
-          
         </div>
-        
       </div>
-
   )
   }
 }
@@ -89,11 +81,11 @@ const mapStateToprops = (state) => {
 const AppContainer = compose( connect(mapStateToprops, {initializeApp}) ) (App);
 
 const MainApp = (props) => {
-  return  <HashRouter>
+  return  <BrowserRouter>
   <Provider store={store}>
   <AppContainer />
   </Provider>
-  </HashRouter>
+  </BrowserRouter>
 }
 
 export default MainApp; 

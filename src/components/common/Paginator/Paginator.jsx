@@ -20,7 +20,7 @@ const Paginator = (props) => {
             <div>
                 {slicedPages.map(p =>
                     <span className={props.currentPage === p ? classes.selected : ''}
-                        onClick={() => { props.onPageChanged(p) }}
+                        key ={p} onClick={() => { props.onPageChanged(p) }}
                     >{p}</span>
                 )}
             </div>

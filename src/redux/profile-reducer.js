@@ -113,10 +113,14 @@ export const getUserStatus = (userId) =>
                      // Thunk 
 export const updateUserStatus = (status) => 
     async (dispatch) => {
+        try {
         let response = await profileAPI.updateStatus(status);
           if (response.data.resultCode === 0) {
             dispatch(setUserStatus(status))
-            }              
+            }     
+        }    catch (eror) {
+                alert ('some error')
+        }      
 }
 
 export const savePhoto = (file) => 
