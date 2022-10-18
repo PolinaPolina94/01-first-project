@@ -12,8 +12,8 @@ let inicialState = {
     postsData: [
         { id: 1, message: "Hello, Kitty", likesCount: 20 },
         { id: 2, message: "Hi, dear", likesCount: 15 },
-        { id: 2, message: "Hi, dear", likesCount: 15 },
-        { id: 2, message: "Hi, dear", likesCount: 15 },
+        { id: 3, message: "Hi, dear", likesCount: 18 },
+        { id: 4, message: "Hi, dear", likesCount: 30 },
     ],
     profile: null,
     status: ''
@@ -27,7 +27,7 @@ const profailReducer = (state = inicialState, action) => {
             return {
                 ...state,
                 postsData: [...state.postsData, {message: newPost}],
-                newPostText: ''
+                newPostText: '',
             };
 
         case SET_USER_PROFILE:

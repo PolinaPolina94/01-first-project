@@ -8,17 +8,12 @@ import { Textarea } from "../../common/FormsControls/FormsControls";
 
 const maxLength10 = maxLengthCreator(10)
 
-/* создаем, какбэ функцию, возвращающую компоненту на основе базы данных с постами. Компонента принимает в качестве пропсов параметры сообщений и количество лайков. */
+/* создаем,компоненту на основе базы данных с постами. Компонента принимает в качестве пропсов параметры сообщений и количество лайков. */
 
 const MyPosts = React.memo((props) => {     //Если мы работаем с классовой компонентой, то мы пишем так: class MyPost extends React.PureComponent { render () {...} ... } - PureComponent берет на себя логику метода жизненного цикла shouldComponentUpdate()
-
-       
     // shouldComponentUpdate(nextProps, nextState) {
     //     return nextProps !== this.props || nextState !== this.state 
     // }
-
-        console.log("render")
-
     const postElements = 
         [...props.postsData]
         .reverse()
@@ -27,8 +22,8 @@ const MyPosts = React.memo((props) => {     //Если мы работаем с 
             })
 
     const addPosts = (values) => {
-
         props.addPost(values.newPostText);
+        values.newPostText = " ";
             }
     
     return(
@@ -43,9 +38,6 @@ const MyPosts = React.memo((props) => {     //Если мы работаем с 
         </div>
     );
         }); 
-
-
-
  
 
  // в компоненте-форме AddPostForm в поле Field при отрисовке компоненты (отдельно созданной "Textarea"), передаем ее как ссылку в {} у component
